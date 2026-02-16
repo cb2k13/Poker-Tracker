@@ -8,23 +8,30 @@ export function useSession() {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session || null);
+    (async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      // If Supabase storage is corrupted/stale, wipe it by signing out
+      if (error && String(error.message || "").toLowerCase().includes("invalid refresh token")) {
+        await supabase.auth.signOut();
+        if (mounted) setSession(null);
+        setLoading(false);
+        return;
+      }
+
+      if (mounted) setSession(data.session ?? null);
       setLoading(false);
-    });
+    })();
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession || null);
+      setSession(newSession ?? null);
     });
 
     return () => {
       mounted = false;
-      sub?.subscription?.unsubscribe?.();
+      sub?.subscription?.unsubscribe();
     };
   }, []);
 
   return { session, loading };
 }
-
-

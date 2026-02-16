@@ -6,6 +6,8 @@ import SessionsPage from "./pages/SessionsPage.jsx";
 import HandsPage from "./pages/HandsPage.jsx";
 import { useSession } from "./hooks/useSession.js";
 import Navbar from "./components/Navbar.jsx";
+import AuthCallback from "./pages/AuthCallback.jsx";
+
 
 function Protected({ children }) {
   const { session, loading } = useSession();
@@ -32,6 +34,13 @@ export default function App() {
             </Protected>
           }
         />
+        
+        <Route 
+        path="/auth/callback" 
+        element={
+        <AuthCallback />} 
+        />
+
 
         <Route
           path="/sessions"
