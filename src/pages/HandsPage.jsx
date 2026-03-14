@@ -6,7 +6,6 @@ function fmtDateTime(dt) {
   return new Date(dt).toLocaleString();
 }
 
-// 
 function fmtDollarsFromCents(cents) {
   const n = Number(cents || 0);
   const dollars = Math.round(n / 100);
@@ -24,6 +23,7 @@ export default function HandsPage() {
   const [stakes, setStakes] = useState("1/2");
   const [position, setPosition] = useState("BTN");
   const [result, setResult] = useState("win");
+  const [holeCards, setHoleCards] = useState("");
 
   // user inputs
   const [profitDollars, setProfitDollars] = useState("0");
@@ -42,7 +42,6 @@ export default function HandsPage() {
   async function loadPage() {
     const user = await getUserOrThrow();
 
-    // fetch from sessions table in supabase 
     const { data: sess, error: sessErr } = await supabase
       .from("sessions")
       .select("id, title, started_at")
@@ -51,17 +50,17 @@ export default function HandsPage() {
 
     if (sessErr) throw sessErr;
     setSessions(sess || []);
-    // hands table 
+
     const { data: hs, error: handsErr } = await supabase
       .from("hands")
-      .select("id, played_at, game, stakes, position, result, profit_cents, notes, session_id")
+      .select("id, played_at, game, stakes, position, result, profit_cents, notes, session_id, hole_cards")
       .eq("user_id", user.id)
       .order("played_at", { ascending: false });
 
     if (handsErr) throw handsErr;
     setHands(hs || []);
   }
-// load sessions and hands on page load
+
   useEffect(() => {
     (async () => {
       try {
@@ -79,15 +78,22 @@ export default function HandsPage() {
       setErr("");
       const user = await getUserOrThrow();
 
-      //error for profit input vaidation 
       const profitNum = Number(profitDollars);
       if (!Number.isFinite(profitNum)) {
         throw new Error("Profit must be a valid dollar amount (e.g. -25, 0, 150).");
       }
 
-      // it's stored in cents 
+      const cleanedHoleCards = holeCards.trim();
+
+      if (
+        cleanedHoleCards &&
+        !/^[2-9TJQKA][shdc][2-9TJQKA][shdc]$/i.test(cleanedHoleCards)
+      ) {
+        throw new Error("Hole Cards must look like AsJh, AhKh, 7c7d, etc.");
+      }
+
       const profitCents = Math.round(profitNum * 100);
-      // insert into hands table in supabase
+
       const payload = {
         user_id: user.id,
         session_id: sessionId ? Number(sessionId) : null,
@@ -96,13 +102,15 @@ export default function HandsPage() {
         stakes,
         position,
         result,
+        hole_cards: cleanedHoleCards ? cleanedHoleCards.toUpperCase() : null,
         profit_cents: profitCents,
         notes: notes.trim() || null,
       };
 
       const { error } = await supabase.from("hands").insert([payload]);
       if (error) throw error;
-      //initial state after saving a hand
+
+      setHoleCards("");
       setNotes("");
       setProfitDollars("0");
 
@@ -111,7 +119,7 @@ export default function HandsPage() {
       setErr(e?.message || "Failed to save hand");
     }
   }
-// delet hand function that deletes a hand by id from the hands table in supabase and reloads the page data
+
   async function deleteHand(id) {
     try {
       setErr("");
@@ -190,6 +198,20 @@ export default function HandsPage() {
             </div>
 
             <div className="field" style={{ flex: 1 }}>
+              <div className="label">Hole Cards</div>
+              <input
+                className="input"
+                type="text"
+                placeholder="AsJh"
+                value={holeCards}
+                onChange={(e) => setHoleCards(e.target.value)}
+              />
+              <div className="muted" style={{ marginTop: 6 }}>
+                Example: AsJh, AhKh, 7c7d
+              </div>
+            </div>
+
+            <div className="field" style={{ flex: 1 }}>
               <div className="label">Profit ($)</div>
               <input
                 className="input"
@@ -224,6 +246,7 @@ export default function HandsPage() {
         <div className="table">
           <div className="thead">
             <div className="th">Date</div>
+            <div className="th">Hand</div>
             <div className="th">Game</div>
             <div className="th">Stakes</div>
             <div className="th">Position</div>
@@ -242,6 +265,7 @@ export default function HandsPage() {
             return (
               <div className="trow" key={h.id}>
                 <div className="td">{fmtDateTime(h.played_at)}</div>
+                <div className="td">{h.hole_cards || "-"}</div>
                 <div className="td">{h.game}</div>
                 <div className="td">{h.stakes}</div>
                 <div className="td">{h.position}</div>
