@@ -1,8 +1,30 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import dashboardImg from "../assets/dashboard.png";
+import statsImg from "../assets/stats.png";
 
 export default function LandingPage() {
   const nav = useNavigate();
+
+  const imageBoxStyle = {
+    height: "560px",
+    borderRadius: "36px",
+    background: "linear-gradient(135deg, #5b5af7 0%, #1f2937 100%)",
+    boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "18px",
+  };
+
+ const imageStyle = {
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  borderRadius: "24px",
+  display: "block",
+};
 
   return (
     <div
@@ -104,8 +126,8 @@ export default function LandingPage() {
               lineHeight: 1.5,
             }}
           >
-            The performance tracking tool built for live players who 
-            want to track their sessions and take their game to the next level.
+            The performance tracking tool built for live players who want to
+            track their sessions and take their game to the next level.
           </p>
 
           <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
@@ -177,28 +199,26 @@ export default function LandingPage() {
             </h2>
 
             <p style={{ fontSize: "24px", color: "#4b5563", lineHeight: 1.5 }}>
-               Log your sessions instantly. 
+              Log your sessions instantly.
             </p>
 
             <div style={{ marginTop: "28px", display: "grid", gap: "18px" }}>
               <div style={{ fontSize: "22px" }}>
-                <strong>Quick Timing:</strong> On the table or at home, log sessions. 
+                <strong>Quick Timing:</strong> On the table or at home, log sessions.
               </div>
               <div style={{ fontSize: "22px" }}>
                 <strong>Log Hands:</strong> Add key hands from each session for deeper insights.
               </div>
-            
             </div>
           </div>
 
-          <div
-            style={{
-              height: "560px",
-              borderRadius: "36px",
-              background: "linear-gradient(135deg, #5b5af7 0%, #1f2937 100%)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
-            }}
-          />
+          <div style={imageBoxStyle}>
+            <img
+              src={dashboardImg}
+              alt="Dashboard preview"
+              style={imageStyle}
+            />
+          </div>
         </section>
 
         <section
@@ -217,12 +237,16 @@ export default function LandingPage() {
         >
           <div
             style={{
-              height: "560px",
-              borderRadius: "36px",
+              ...imageBoxStyle,
               background: "linear-gradient(135deg, #1f2937 0%, #5b5af7 100%)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
             }}
-          />
+          >
+            <img
+              src={statsImg}
+              alt="Stats preview"
+              style={imageStyle}
+            />
+          </div>
 
           <div>
             <div
@@ -236,7 +260,7 @@ export default function LandingPage() {
                 marginBottom: "24px",
               }}
             >
-              Go in depth with your game 
+              Go in depth with your game
             </div>
 
             <h2 style={{ fontSize: "64px", margin: "0 0 18px", fontWeight: 900 }}>
@@ -249,7 +273,7 @@ export default function LandingPage() {
 
             <div style={{ marginTop: "28px", display: "grid", gap: "18px" }}>
               <div style={{ fontSize: "22px" }}>
-                <strong>Winrate:</strong> Track your winrate and trends. 
+                <strong>Winrate:</strong> Track your winrate and trends.
               </div>
               <div style={{ fontSize: "22px" }}>
                 <strong>Personal Bests:</strong> Spot your most profitable casinos, stakes, and games.
