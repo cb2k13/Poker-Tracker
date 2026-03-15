@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
   const nav = useNavigate();
-  const [mode, setMode] = useState("login"); // "login" | "register"
+  const [mode, setMode] = useState("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,6 @@ export default function AuthPage() {
   const [showResend, setShowResend] = useState(false);
 
   const redirectTo = useMemo(() => {
-    // IMPORTANT: update the production URL to your real Vercel domain if it changes
     return import.meta.env.PROD
       ? "https://poker-tracker-jade.vercel.app/auth/callback"
       : "http://localhost:5173/auth/callback";
@@ -38,29 +37,33 @@ export default function AuthPage() {
             emailRedirectTo: redirectTo,
           },
         });
+
         if (error) throw error;
 
-        // With email confirmations enabled, they won't be logged in yet.
         setMsg("Account created. Check your email to confirm your account, then come back to login.");
         setMode("login");
         setPassword("");
         return;
       }
 
-      // LOGIN
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
       if (error) {
         const message = error.message || "Login failed";
-        // Common Supabase message when confirmations are enabled
+
         if (message.toLowerCase().includes("email not confirmed")) {
           setErr("Email not confirmed. Please confirm your email (or resend the confirmation).");
           setShowResend(true);
           return;
         }
+
         throw error;
       }
 
-      nav("/");
+      nav("/dashboard", { replace: true });
     } catch (e2) {
       setErr(e2?.message || "Auth error");
     } finally {
@@ -79,7 +82,9 @@ export default function AuthPage() {
         email,
         options: { emailRedirectTo: redirectTo },
       });
+
       if (error) throw error;
+
       setMsg("Confirmation email sent. Check your inbox/spam.");
     } catch (e2) {
       setErr(e2?.message || "Could not resend email");
@@ -97,13 +102,21 @@ export default function AuthPage() {
           {mode === "register" && (
             <label>
               Name
-              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+              />
             </label>
           )}
 
           <label>
             Email
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" />
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@email.com"
+            />
           </label>
 
           <label>
@@ -138,11 +151,19 @@ export default function AuthPage() {
 
         <div className="switchRow">
           {mode === "login" ? (
-            <button className="linkBtn" onClick={() => setMode("register")} type="button">
+            <button
+              className="linkBtn"
+              onClick={() => setMode("register")}
+              type="button"
+            >
               New here? Register
             </button>
           ) : (
-            <button className="linkBtn" onClick={() => setMode("login")} type="button">
+            <button
+              className="linkBtn"
+              onClick={() => setMode("login")}
+              type="button"
+            >
               Already have an account? Login
             </button>
           )}

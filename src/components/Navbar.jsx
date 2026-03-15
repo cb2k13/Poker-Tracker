@@ -7,19 +7,22 @@ export default function Navbar() {
 
   const logout = async () => {
     await supabase.auth.signOut();
-    nav("/auth");
+    nav("/auth", { replace: true });
   };
 
   return (
     <div className="topbar">
-      <div className="brand" onClick={() => nav("/")} role="button" tabIndex={0}>
+      <div className="brand" onClick={() => nav("/dashboard")} role="button" tabIndex={0}>
         <div className="pulseIcon">♠</div>
         <div className="brandText">Poker Tracker</div>
       </div>
 
       <div className="nav">
-        <NavLink to="/" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+        <NavLink to="/dashboard" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
           Dashboard
+        </NavLink>
+        <NavLink to="/stats" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+          Stats
         </NavLink>
         <NavLink to="/sessions" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
           Sessions
@@ -35,4 +38,3 @@ export default function Navbar() {
     </div>
   );
 }
-
