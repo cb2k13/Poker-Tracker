@@ -7,7 +7,7 @@ export default function Navbar() {
 
   const logout = async () => {
     await supabase.auth.signOut();
-    nav("/auth", { replace: true });
+    nav("/", { replace: true });
   };
 
   return (

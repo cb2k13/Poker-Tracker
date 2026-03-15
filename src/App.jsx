@@ -1,97 +1,41 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import AuthPage from "./pages/AuthPage.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
-import SessionsPage from "./pages/SessionsPage.jsx";
-import HandsPage from "./pages/HandsPage.jsx";
-import GraphsPage from "./pages/GraphsPage.jsx";
-import { useSession } from "./hooks/useSession.js";
-import Navbar from "./components/Navbar.jsx";
-import AuthCallback from "./pages/AuthCallback.jsx";
-import LandingPage from "./pages/LandingPage.jsx";
+import { Routes, Route, useLocation } from "react-router-dom";
 
+import LandingPage from "./pages/LandingPage";
+import AuthPage from "./pages/AuthPage";
+import AuthCallback from "./pages/AuthCallback";
+import Dashboard from "./pages/Dashboard";
+import GraphsPage from "./pages/GraphsPage";
+import SessionsPage from "./pages/SessionsPage";
+import HandsPage from "./pages/HandsPage";
+import Navbar from "./components/Navbar";
 
+function AppShell() {
+  const location = useLocation();
 
-function Protected({ children }) {
-  const { session, loading } = useSession();
-
-  if (loading) return <div className="container">Loading...</div>;
-  if (!session) return <Navigate to="/auth" replace />;
-
-  return children;
-}
-
-function PublicOnly({ children }) {
-  const { session, loading } = useSession();
-
-  if (loading) return <div className="container">Loading...</div>;
-  if (session) return <Navigate to="/dashboard" replace />;
-
-  return children;
-}
-
-export default function App() {
-  const { session } = useSession();
+  const hideNavbar =
+    location.pathname === "/" ||
+    location.pathname === "/auth" ||
+    location.pathname === "/auth/callback";
 
   return (
-    <div>
-      {session ? <Navbar /> : null}
+    <>
+      {!hideNavbar ? <Navbar /> : null}
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
-
-        <Route
-          path="/auth"
-          element={
-            <PublicOnly>
-              <AuthPage />
-            </PublicOnly>
-          }
-        />
-
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            <Protected>
-              <Dashboard />
-            </Protected>
-          }
-        />
-
-        <Route
-          path="/stats"
-          element={
-            <Protected>
-              <GraphsPage />
-            </Protected>
-          }
-        />
-
-        <Route
-          path="/sessions"
-          element={
-            <Protected>
-              <SessionsPage />
-            </Protected>
-          }
-        />
-
-        <Route
-          path="/hands"
-          element={
-            <Protected>
-              <HandsPage />
-            </Protected>
-          }
-        />
-
-        <Route
-          path="*"
-          element={<Navigate to={session ? "/dashboard" : "/"} replace />}
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/stats" element={<GraphsPage />} />
+        <Route path="/sessions" element={<SessionsPage />} />
+        <Route path="/hands" element={<HandsPage />} />
       </Routes>
-    </div>
+    </>
   );
+}
+
+export default function App() {
+  return <AppShell />;
 }

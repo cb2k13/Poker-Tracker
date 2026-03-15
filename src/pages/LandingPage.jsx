@@ -91,8 +91,8 @@ export default function LandingPage() {
               letterSpacing: "-0.05em",
             }}
           >
-            Plan It. Track It.{" "}
-            <span style={{ color: "#4f46e5" }}>Crush It.</span>
+            Track Sessions.{" "}
+            <span style={{ color: "#4f46e5" }}>Become a Crusher.</span>
           </h1>
 
           <p
@@ -104,8 +104,8 @@ export default function LandingPage() {
               lineHeight: 1.5,
             }}
           >
-            The poker performance app that helps you log sessions, save hands,
-            track profit, and improve your game in one place.
+            The performance tracking tool built for live players who 
+            want to track their sessions and take their game to the next level.
           </p>
 
           <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
@@ -169,7 +169,7 @@ export default function LandingPage() {
                 marginBottom: "24px",
               }}
             >
-              Stay on top of your winnings.
+              Rise to the top of the game
             </div>
 
             <h2 style={{ fontSize: "64px", margin: "0 0 18px", fontWeight: 900 }}>
@@ -177,19 +177,17 @@ export default function LandingPage() {
             </h2>
 
             <p style={{ fontSize: "24px", color: "#4b5563", lineHeight: 1.5 }}>
-              Log your live and online sessions in seconds.
+               Log your sessions instantly. 
             </p>
 
             <div style={{ marginTop: "28px", display: "grid", gap: "18px" }}>
               <div style={{ fontSize: "22px" }}>
-                <strong>Fast Logging:</strong> Record sessions quickly and on the go.
+                <strong>Quick Timing:</strong> On the table or at home, log sessions. 
               </div>
               <div style={{ fontSize: "22px" }}>
-                <strong>Save Hands & Notes:</strong> Review important spots later.
+                <strong>Log Hands:</strong> Add key hands from each session for deeper insights.
               </div>
-              <div style={{ fontSize: "22px" }}>
-                <strong>Multi-Game Support:</strong> Track cash games, tournaments, and home games.
-              </div>
+            
             </div>
           </div>
 
@@ -238,11 +236,11 @@ export default function LandingPage() {
                 marginBottom: "24px",
               }}
             >
-              Understand your game with in-depth stats.
+              Go in depth with your game 
             </div>
 
             <h2 style={{ fontSize: "64px", margin: "0 0 18px", fontWeight: 900 }}>
-              Advanced Statistics
+              Advanced Stat Tracking
             </h2>
 
             <p style={{ fontSize: "24px", color: "#4b5563", lineHeight: 1.5 }}>
@@ -251,13 +249,10 @@ export default function LandingPage() {
 
             <div style={{ marginTop: "28px", display: "grid", gap: "18px" }}>
               <div style={{ fontSize: "22px" }}>
-                <strong>Performance Filters:</strong> Break down results by game type, location, or stake.
+                <strong>Winrate:</strong> Track your winrate and trends. 
               </div>
               <div style={{ fontSize: "22px" }}>
-                <strong>Winrate Metrics:</strong> Track profit trends and session averages.
-              </div>
-              <div style={{ fontSize: "22px" }}>
-                <strong>Personal Bests:</strong> Spot your strongest games and biggest leaks faster.
+                <strong>Personal Bests:</strong> Spot your most profitable casinos, stakes, and games.
               </div>
             </div>
           </div>
