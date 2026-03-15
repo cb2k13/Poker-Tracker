@@ -10,6 +10,8 @@ import Navbar from "./components/Navbar.jsx";
 import AuthCallback from "./pages/AuthCallback.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 
+
+
 function Protected({ children }) {
   const { session, loading } = useSession();
 
