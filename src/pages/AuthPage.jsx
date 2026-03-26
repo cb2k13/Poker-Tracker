@@ -76,7 +76,7 @@ export default function AuthPage() {
         throw error;
       }
 
-      nav("/");
+      nav("dashboard");
     } catch (e2) {
       setErr(e2?.message || "Auth error");
     } finally {
