@@ -6,6 +6,9 @@ import statsImg from "../assets/stats.png";
 export default function LandingPage() {
   const nav = useNavigate();
 
+  const goToSignup = () => nav("/auth?mode=register");
+  const goToLogin = () => nav("/auth");
+
   const imageBoxStyle = {
     height: "560px",
     borderRadius: "36px",
@@ -18,13 +21,13 @@ export default function LandingPage() {
     padding: "18px",
   };
 
- const imageStyle = {
-  width: "100%",
-  height: "100%",
-  objectFit: "contain",
-  borderRadius: "24px",
-  display: "block",
-};
+  const imageStyle = {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+    borderRadius: "24px",
+    display: "block",
+  };
 
   return (
     <div
@@ -49,7 +52,7 @@ export default function LandingPage() {
 
         <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
           <button
-            onClick={() => nav("/auth")}
+            onClick={goToSignup}
             style={{
               background: "#4f46e5",
               color: "white",
@@ -64,7 +67,7 @@ export default function LandingPage() {
           </button>
 
           <button
-            onClick={() => nav("/auth")}
+            onClick={goToLogin}
             style={{
               background: "transparent",
               color: "#111827",
@@ -132,7 +135,7 @@ export default function LandingPage() {
 
           <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
             <button
-              onClick={() => nav("/auth")}
+              onClick={goToSignup}
               style={{
                 background: "#4f46e5",
                 color: "white",
@@ -148,7 +151,7 @@ export default function LandingPage() {
             </button>
 
             <button
-              onClick={() => nav("/auth")}
+              onClick={goToLogin}
               style={{
                 background: "white",
                 color: "#111827",
@@ -213,11 +216,7 @@ export default function LandingPage() {
           </div>
 
           <div style={imageBoxStyle}>
-            <img
-              src={dashboardImg}
-              alt="Dashboard preview"
-              style={imageStyle}
-            />
+            <img src={dashboardImg} alt="Dashboard preview" style={imageStyle} />
           </div>
         </section>
 
@@ -241,11 +240,7 @@ export default function LandingPage() {
               background: "linear-gradient(135deg, #1f2937 0%, #5b5af7 100%)",
             }}
           >
-            <img
-              src={statsImg}
-              alt="Stats preview"
-              style={imageStyle}
-            />
+            <img src={statsImg} alt="Stats preview" style={imageStyle} />
           </div>
 
           <div>
